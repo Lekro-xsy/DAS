@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCM Baseline vs Supervised Comparison</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .column {
+            background: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .column h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.5em;
+        }
+
+        .baseline h2 {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+        }
+
+        .supervised h2 {
+            background: linear-gradient(45deg, #4834d4, #686de0);
+        }
+
+        .image-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.05);
+        }
+
+        .image-label {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #555;
+            font-size: 1.1em;
+        }
+
+        .final-comparison {
+            margin-top: 40px;
+            text-align: center;
+            background: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .final-comparison h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .final-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .final-image {
+            text-align: center;
+        }
+
+        .final-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .final-image h3 {
+            margin-top: 15px;
+            font-size: 1.3em;
+            color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .final-images {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+        }
+
+        .step-navigation {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .step-nav {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 0 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .step-nav:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 LCM Generation Comparison</h1>
+        
+        <div class="step-navigation">
+            <a href="#step1" class="step-nav">Step 1</a>
+            <a href="#step10" class="step-nav">Step 10</a>
+            <a href="#step20" class="step-nav">Step 20</a>
+            <a href="#final" class="step-nav">Final Results</a>
+        </div>
+
+        <div class="comparison-grid">
+            <div class="column baseline">
+                <h2>🔴 Baseline (20 Steps)</h2>
+                <div id="baseline-images">
+
+                    <div class="image-container"id="step1">
+                        <img src="output_lcm_baseline_20steps/step_1.png" alt="Baseline Step 1" loading="lazy">
+                        <div class="image-label">Step 1</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_2.png" alt="Baseline Step 2" loading="lazy">
+                        <div class="image-label">Step 2</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_3.png" alt="Baseline Step 3" loading="lazy">
+                        <div class="image-label">Step 3</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_4.png" alt="Baseline Step 4" loading="lazy">
+                        <div class="image-label">Step 4</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_5.png" alt="Baseline Step 5" loading="lazy">
+                        <div class="image-label">Step 5</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_6.png" alt="Baseline Step 6" loading="lazy">
+                        <div class="image-label">Step 6</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_7.png" alt="Baseline Step 7" loading="lazy">
+                        <div class="image-label">Step 7</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_8.png" alt="Baseline Step 8" loading="lazy">
+                        <div class="image-label">Step 8</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_9.png" alt="Baseline Step 9" loading="lazy">
+                        <div class="image-label">Step 9</div>
+                    </div>
+                    <div class="image-container"id="step10">
+                        <img src="output_lcm_baseline_20steps/step_10.png" alt="Baseline Step 10" loading="lazy">
+                        <div class="image-label">Step 10</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_11.png" alt="Baseline Step 11" loading="lazy">
+                        <div class="image-label">Step 11</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_12.png" alt="Baseline Step 12" loading="lazy">
+                        <div class="image-label">Step 12</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_13.png" alt="Baseline Step 13" loading="lazy">
+                        <div class="image-label">Step 13</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_14.png" alt="Baseline Step 14" loading="lazy">
+                        <div class="image-label">Step 14</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_15.png" alt="Baseline Step 15" loading="lazy">
+                        <div class="image-label">Step 15</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_16.png" alt="Baseline Step 16" loading="lazy">
+                        <div class="image-label">Step 16</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_17.png" alt="Baseline Step 17" loading="lazy">
+                        <div class="image-label">Step 17</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_18.png" alt="Baseline Step 18" loading="lazy">
+                        <div class="image-label">Step 18</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_baseline_20steps/step_19.png" alt="Baseline Step 19" loading="lazy">
+                        <div class="image-label">Step 19</div>
+                    </div>
+                    <div class="image-container"id="step20">
+                        <img src="output_lcm_baseline_20steps/step_20.png" alt="Baseline Step 20" loading="lazy">
+                        <div class="image-label">Step 20</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="column supervised">
+                <h2>🔵 Supervised</h2>
+                <div id="supervised-images">
+
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_1.png" alt="Supervised Step 1" loading="lazy">
+                        <div class="image-label">Step 1</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_2.png" alt="Supervised Step 2" loading="lazy">
+                        <div class="image-label">Step 2</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_3.png" alt="Supervised Step 3" loading="lazy">
+                        <div class="image-label">Step 3</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_4.png" alt="Supervised Step 4" loading="lazy">
+                        <div class="image-label">Step 4</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_5.png" alt="Supervised Step 5" loading="lazy">
+                        <div class="image-label">Step 5</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_6.png" alt="Supervised Step 6" loading="lazy">
+                        <div class="image-label">Step 6</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_7.png" alt="Supervised Step 7" loading="lazy">
+                        <div class="image-label">Step 7</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_8.png" alt="Supervised Step 8" loading="lazy">
+                        <div class="image-label">Step 8</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_9.png" alt="Supervised Step 9" loading="lazy">
+                        <div class="image-label">Step 9</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_10.png" alt="Supervised Step 10" loading="lazy">
+                        <div class="image-label">Step 10</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_11.png" alt="Supervised Step 11" loading="lazy">
+                        <div class="image-label">Step 11</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_12.png" alt="Supervised Step 12" loading="lazy">
+                        <div class="image-label">Step 12</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_13.png" alt="Supervised Step 13" loading="lazy">
+                        <div class="image-label">Step 13</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_14.png" alt="Supervised Step 14" loading="lazy">
+                        <div class="image-label">Step 14</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_15.png" alt="Supervised Step 15" loading="lazy">
+                        <div class="image-label">Step 15</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_16.png" alt="Supervised Step 16" loading="lazy">
+                        <div class="image-label">Step 16</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_17.png" alt="Supervised Step 17" loading="lazy">
+                        <div class="image-label">Step 17</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_18.png" alt="Supervised Step 18" loading="lazy">
+                        <div class="image-label">Step 18</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_19.png" alt="Supervised Step 19" loading="lazy">
+                        <div class="image-label">Step 19</div>
+                    </div>
+                    <div class="image-container">
+                        <img src="output_lcm_normal_comparison/step_20.png" alt="Supervised Step 20" loading="lazy">
+                        <div class="image-label">Step 20</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="final-comparison" id="final">
+            <h2>🏆 Final Results Comparison</h2>
+            <div class="final-images">
+                <div class="final-image">
+                    <img src="output_lcm_baseline_20steps/final_lcm_baseline_20steps.png" alt="Baseline Final Result">
+                    <h3>Baseline Final</h3>
+                </div>
+                <div class="final-image">
+                    <img src="output_lcm_normal_comparison/final_normal_lcm.png" alt="Supervised Final Result">
+                    <h3>Supervised Final</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
